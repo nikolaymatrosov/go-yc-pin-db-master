@@ -15,8 +15,10 @@ func checkPostgres(ctx context.Context, sdk *ycsdk.SDK, cluster ClusterConfig) e
 		master  *postgresql.Host
 		targets []*postgresql.Host
 	)
-
-	hostIter := sdk.MDB().PostgreSQL().Cluster().ClusterHostsIterator(ctx, cluster.ClusterId)
+	req := postgresql.ListClusterHostsRequest{
+		ClusterId: cluster.ClusterId,
+	}
+	hostIter := sdk.MDB().PostgreSQL().Cluster().ClusterHostsIterator(ctx, &req)
 
 	for hostIter.Next() {
 		host := hostIter.Value()
@@ -48,8 +50,10 @@ func checkMySql(ctx context.Context, sdk *ycsdk.SDK, cluster ClusterConfig) erro
 		master  *mysql.Host
 		targets []*mysql.Host
 	)
-
-	hostIter := sdk.MDB().MySQL().Cluster().ClusterHostsIterator(ctx, cluster.ClusterId)
+	req := mysql.ListClusterHostsRequest{
+		ClusterId: cluster.ClusterId,
+	}
+	hostIter := sdk.MDB().MySQL().Cluster().ClusterHostsIterator(ctx, &req)
 
 	for hostIter.Next() {
 		host := hostIter.Value()
